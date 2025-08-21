@@ -3,7 +3,18 @@ import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange, reduce
 import math
+from kornia.filters import filter2d
 
+class Blur(nn.Module):
+    def __init__(self):
+        super().__init__()
+        f = torch.Tensor([1, 2, 1])
+        self.register_buffer('f', f)
+    def forward(self, x):
+        f = self.f
+        f = f[None, None, :] * f [None, :, None]
+        return filter2d(x, f, normalized=True)
+    
 class DINOv2Discriminator(nn.Module):
     def __init__(
         self,
@@ -293,7 +304,7 @@ class HybridDINOv2Discriminator(nn.Module):
         self.dino_weight = 1.0 - cnn_weight
         
         # Import the original CNN-based layers from the file
-        from lightweight_gan import SPConvDownsample, SumBranches, Blur, PreNorm, LinearAttention
+        #from lightweight_gan import SPConvDownsample, SumBranches, Blur, PreNorm, LinearAttention
         
         # Initialize DINOv2
         try:
