@@ -1056,6 +1056,11 @@ class Trainer():
         aim_repo = None,
         aim_run_hash = None,
         load_strict = True,
+        use_dinov2_discriminator = True,
+        dino_model_name = 'dinov2_vitb14',
+        freeze_dino = True,
+        use_hybrid_discriminator = False,
+        cnn_weight = 0.5,
         *args,
         **kwargs
     ):
