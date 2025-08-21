@@ -914,16 +914,6 @@ class LightweightGAN(nn.Module):
 
         self.G = Generator(**G_kwargs)
 
-        self.D = Discriminator(
-            image_size = image_size,
-            fmap_max = fmap_max,
-            fmap_inverse_coef = fmap_inverse_coef,
-            transparent = transparent,
-            greyscale = greyscale,
-            attn_res_layers = attn_res_layers,
-            disc_output_size = disc_output_size
-        )
-
     
         # Choose discriminator type
         if use_dinov2_discriminator:
@@ -968,6 +958,7 @@ class LightweightGAN(nn.Module):
                 attn_res_layers = attn_res_layers,
                 disc_output_size = disc_output_size
             )
+
 
         self.ema_updater = EMA(0.995)
         self.GE = Generator(**G_kwargs)
@@ -1057,10 +1048,10 @@ class Trainer():
         aim_repo = None,
         aim_run_hash = None,
         load_strict = True,
-        use_dinov2_discriminator = True,
+        use_dinov2_discriminator = False,
         dino_model_name = 'dinov2_vitb14',
         freeze_dino = True,
-        use_hybrid_discriminator = False,
+        use_hybrid_discriminator = True,
         cnn_weight = 0.5,
         *args,
         **kwargs
@@ -1209,7 +1200,11 @@ class Trainer():
             transparent = self.transparent,
             greyscale = self.greyscale,
             rank = self.rank,
-            use_hybrid_discriminator=True,
+            use_dinov2_discriminator = self.use_dinov2_discriminator,
+            dino_model_name =self.dino_model_name,
+            freeze_dino = self.freeze_dino,
+            use_hybrid_discriminator = self.use_hybrid_discriminator,
+            cnn_weight =self.cnn_weight,
             *args,
             **kwargs
         )
