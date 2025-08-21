@@ -27,7 +27,6 @@ from kornia.filters import filter2d
 from lightweight_gan.diff_augment import DiffAugment
 from lightweight_gan.version import __version__
 
-from dino_discriminator import  HybridDINOv2Discriminator, DINOv2Discriminator
 
 from tqdm import tqdm
 from einops import rearrange, reduce, repeat
